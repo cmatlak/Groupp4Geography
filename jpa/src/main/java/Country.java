@@ -11,15 +11,32 @@ import java.util.Objects;
 public class Country {
 
     @Id
-    @Column(name = "country_id")
+    @Column(name = "countryId")
     private int id;
 
-    @Column(name = "country_name")
+    @Column(name = "countryName")
     private String countryName;
 
-    @Column(name = "language_code")
-    private String languageCode;
+    @Column(name = "countryCode")
+    private String countryCode;
 
+    @Column(name= "continent")
+    private String continent;
+
+    @Column(name = "areaInKm2")
+    private String areaInKm2;
+
+    @Column(name="governmentType")
+    private String governmentType;
+
+    @Column(name = "governmentHead")
+    private String governmentHead;
+
+    @Column(name = "stateReligion")
+    private String stateReligion;
+
+
+    
     public int getId() {
         return id;
     }
@@ -38,13 +55,54 @@ public class Country {
         return this;
     }
 
-    public String getLanguageCode() {
-        return languageCode;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public Country setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
+    public Country setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
         return this;
+    }
+
+
+    public String getContinent() {
+        return continent;
+    }
+
+    public void setContinent(String continent) {
+        this.continent = continent;
+    }
+
+    public String getAreaInKm2() {
+        return areaInKm2;
+    }
+
+    public void setAreaInKm2(String areaInKm2) {
+        this.areaInKm2 = areaInKm2;
+    }
+
+    public String getGovernmentType() {
+        return governmentType;
+    }
+
+    public void setGovernmentType(String governmentType) {
+        this.governmentType = governmentType;
+    }
+
+    public String getGovernmentHead() {
+        return governmentHead;
+    }
+
+    public void setGovernmentHead(String governmentHead) {
+        this.governmentHead = governmentHead;
+    }
+
+    public String getStateReligion() {
+        return stateReligion;
+    }
+
+    public void setStateReligion(String stateReligion) {
+        this.stateReligion = stateReligion;
     }
 
     @Override
@@ -65,9 +123,15 @@ public class Country {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" +
-               "id = " + id + ", " +
-               "countryName = " + countryName + ", " +
-               "languageCode = " + languageCode + ")";
+        return "Country{" +
+                "id=" + id +
+                ", countryName='" + countryName + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", continent='" + continent + '\'' +
+                ", areaInKm2='" + areaInKm2 + '\'' +
+                ", governmentType='" + governmentType + '\'' +
+                ", governmentHead='" + governmentHead + '\'' +
+                ", stateReligion='" + stateReligion + '\'' +
+                '}';
     }
 }

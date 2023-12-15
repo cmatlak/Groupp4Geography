@@ -1,5 +1,6 @@
 import jakarta.persistence.*;
 
+import java.util.Currency;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -19,9 +20,9 @@ public class Main {
             return;
         }
 
-        TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c WHERE c.countryName = :name", Country.class);
+        TypedQuery<Currency> query = em.createQuery("SELECT c FROM Currency c WHERE c.currencyName = :name", Currency.class);
         query.setParameter("name", name);
-        List<Country> countries = query.getResultList();
+        List<Currency> countries = query.getResultList();
         countries.forEach(System.out::println);
 
         em.close();
