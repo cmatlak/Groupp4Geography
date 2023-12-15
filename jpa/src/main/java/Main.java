@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 public class Main {
 
     public static void main(String[] args) {
+        System.out.println("test");
         EntityManager em = JPAUtil.getEntityManager();
 
         System.out.print("Enter search term: ");
