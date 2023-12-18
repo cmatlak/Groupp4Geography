@@ -1,7 +1,4 @@
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -9,7 +6,7 @@ import java.util.Objects;
 @Table(name = "population")
 public class Population {
 
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "populationId")
     private int populationId;

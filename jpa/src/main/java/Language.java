@@ -6,6 +6,7 @@ import java.util.Objects;
 @Table(name = "language")
 public class Language {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "LanguageId")
     private int languageId;

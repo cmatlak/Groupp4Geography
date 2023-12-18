@@ -1,7 +1,4 @@
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -10,6 +7,7 @@ import java.util.Objects;
 @Table(name = "currency")
 public class Currency {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "currencyId")
     private int  currencyId;

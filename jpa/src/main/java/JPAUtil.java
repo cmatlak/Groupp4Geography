@@ -1,6 +1,8 @@
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class JPAUtil {
     private static final EntityManagerFactory emf;
