@@ -92,6 +92,7 @@ public class JPAUtil {
         });
     }
 
+
     public static void readAllCountries() {
         inTransaction(entityManager -> {
             List<Country> countries = entityManager.createQuery("SELECT c FROM Country c", Country.class)
@@ -161,15 +162,108 @@ public class JPAUtil {
 
                 if (areaCapital > 0 && population > 0) {
                     int density = (int) population / areaCapital;
-                    System.out.println(Back_LithGrow+ANSI_RED+BOLD
-                     +"There are "+ density + " people living per km2 " + capitalName + "\n" + ANSI_RESET);
+                    System.out.println(Back_LithGrow + ANSI_RED + BOLD
+                            + "There are " + density + " people living per km2 " + capitalName + "\n" + ANSI_RESET);
                 } else {
                     System.out.println("Invalid population or areaCapital values");
                 }
             }
         });
     }
+
+    public static void createCapital() {
+        System.out.println("Enter capital name");
+        String capitalName = scanner.nextLine();
+        System.out.println("Enter capital population");
+        int capitalPopulation = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter the timezone");
+        String timezone = scanner.nextLine();
+        System.out.println("Enter area in km2");
+        int capitalArea = scanner.nextInt();
+        scanner.nextLine();
+
+
+        inTransaction(entityManager -> {
+            Capital capital = new Capital();
+            capital.setCapitalName(capitalName);
+            capital.setCapitalPopulation(capitalPopulation);
+            capital.setTimezone(timezone);
+            capital.setAreaInKm2(capitalArea);
+            entityManager.persist(capital);
+        });
+    }
+
+    public static void createPopulation() {
+        System.out.println("Enter the population size");
+        int population = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter average age of the population ");
+        int avgAge = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter the name of the minority population");
+        String minority = scanner.nextLine();
+
+
+        inTransaction(entityManager -> {
+            Population population1 = new Population();
+            population1.setPopulation(population);
+            population1.setAverageAge(avgAge);
+            population1.setMinorityPopulation(minority);
+            entityManager.persist(population1);
+        });
+    }
+
+    public static void createCurrency() {
+
+
+        System.out.println("Enter the currency name");
+        String currencyName = scanner.nextLine();
+        System.out.println("Enter ISO4217 code");
+        int ISO = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter the sub-currency");
+        String subC = scanner.nextLine();
+        System.out.println("Enter the cost of one Euro");
+        int euro = scanner.nextInt();
+        scanner.nextLine();
+
+
+        inTransaction(entityManager -> {
+            Currency currency = new Currency();
+            currency.setCurrencyName(currencyName);
+            currency.setEuroCost(ISO);
+            currency.setSubCurrency(subC);
+            currency.setEuroCost(euro);
+
+            entityManager.persist(currency);
+        });
+    }
+
+    public static void createLanguage() {
+        System.out.println("Enter the language");
+        String languageName = scanner.nextLine();
+        System.out.println("Enter the origin of the language");
+        String languageRoot = scanner.nextLine();
+        System.out.println("Enter the type of alphabet");
+        String alphabet = scanner.nextLine();
+
+
+        inTransaction(entityManager -> {
+            Language language = new Language();
+            language.setLanguage(languageName);
+            language.setLanguageRoot(languageRoot);
+            language.setAlphabet(alphabet);
+            entityManager.persist(language);
+        });
+    }
+
+
+
 }
+
+
+
 
 
 

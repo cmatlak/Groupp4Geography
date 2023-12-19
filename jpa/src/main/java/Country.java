@@ -29,6 +29,19 @@ public class Country {
     @Column(name = "stateReligion")
     private String stateReligion;
 
+    @OneToOne(mappedBy = "country")
+    private Capital capital;
+
+    @OneToOne
+    private Language language;
+
+    @OneToOne
+    private Currency currency;
+
+    @OneToOne
+    private Population population;
+    
+
     @Override
     public String toString() {
         return "Country{" +
@@ -142,4 +155,16 @@ public class Country {
         return result;
     }
 
+    public Capital getCapital() {
+        return capital;
+    }
+
+    public void setCapital(Capital capital) {
+        this.capital = capital;
+    }
+
+
 }
+
+
+

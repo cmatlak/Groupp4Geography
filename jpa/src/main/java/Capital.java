@@ -25,6 +25,10 @@ import java.util.Objects;
         @Column(name = "areaInKm2")
         private Integer areaInKm2;
 
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "CapitalId", referencedColumnName = "countryId")
+        private Country country;
+
         public int getCapitalId() {
             return capitalId;
         }

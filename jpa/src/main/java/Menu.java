@@ -46,7 +46,7 @@ public class Menu {
 
                 case "5" -> JPAUtil.capitalDensity(1);
 
-                case "6" -> JPAUtil.searchCountry();
+                case "6" -> JPAUtil.join(1);
 
                 case "7" -> JPAUtil.searchCountry();
 
