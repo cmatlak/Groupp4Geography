@@ -1,6 +1,8 @@
+package entity;
 
+import entity.JPAUtil;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -9,13 +11,11 @@ import jakarta.persistence.criteria.Root;
 import java.util.Random;
 
     public class RandomCountry {
-        @PersistenceContext
-        private EntityManager entityManager;
 
-        public RandomCountry(EntityManager entityManager) {
-            this.entityManager = entityManager;
-        }
         public Country getRandomCountry() {
+
+            EntityManager entityManager = JPAUtil.getEntityManager();
+
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
             Root<Country> root = countQuery.from(Country.class);

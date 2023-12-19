@@ -1,10 +1,8 @@
+package entity;
+
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -67,6 +65,8 @@ public class JPAUtil {
 
 
     public static void createCountry() {
+        createLanguage();
+        createCurrency();
         System.out.println("Enter the country name");
         String countryName = scanner.nextLine();
         System.out.println("Enter country code");
@@ -76,22 +76,16 @@ public class JPAUtil {
         System.out.println("Enter the country's area in km2");
         int area = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Enter the type of government that runs the country");
-        String governmentType = scanner.nextLine();
-        System.out.println("Enter the head of government");
-        String governmentHead = scanner.nextLine();
-        System.out.println("Enter the state religion");
-        String stateReligion = scanner.nextLine();
 
         inTransaction(entityManager -> {
             Country country = new Country();
             country.setCountryName(countryName);
             country.setCountryCode(countryCode);
-            country.setContinent(continent);
-            country.setAreaInKm2(area);
+            country.setCapital(capital);
             country.setGovernmentType(governmentType);
-            country.setGovernmentHead(governmentHead);
-            country.setStateReligion(stateReligion);
+            country.setPopulation(population);
+            country.setAreaInKm2(area);
+
             entityManager.persist(country);
         });
     }
@@ -105,15 +99,16 @@ public class JPAUtil {
             if (countries.isEmpty()) {
                 System.out.println("No countries found in the database.");
             } else {
-                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-15s%-15s%-15s%-45s%-45s%-30s%-30s%-15s%n",
-                        "CountryName", "CountryCode", "Continent",
-                        "GovernmentType", "GovernmentHead", "AreaInKm2", "StateReligion", "Id" + ANSI_RESET);
+                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-25s%-25s%-25s%-40s%-20s%-20s%-15s%n",
+                        "CountryName", "CountryCode", "Capital",
+                        "GovernmentType", "Population", "AreaInKm2", "Id" + ANSI_RESET);
 
                 for (Country c : countries) {
-                    System.out.format(ANSI_GREEN + "%-15s%-15s%-15s%-45s%-45s%-30s%-30s%-15s%n",
-                            c.getCountryName(), c.getCountryCode(), c.getContinent(),
-                            c.getGovernmentType(), c.getGovernmentHead(), c.getAreaInKm2(),
-                            c.getStateReligion(), c.getCountryId() + ANSI_RESET);
+                    System.out.format(ANSI_GREEN + "%-25s%-25s%-25s%-40s%-20s%-20s%-15s%n",
+                            c.getCountryName(), c.getCountryCode(), c.getCapital(),
+                            c.getGovernmentType(), c.getPopulation(), c.getAreaInKm2(),
+                            c.getId()
+                            + ANSI_RESET);
                 }
             }
 
@@ -131,12 +126,26 @@ public class JPAUtil {
     }
 
 
-    public static void updateCountry(String governmentHead, String governmentType, String countryName, int id) {
+    public static void updateCountry() {
+        System.out.println("Enter country id");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter the country name");
+        String countryName = scanner.nextLine();
+        System.out.println("Enter the capital");
+        String capital= scanner.nextLine();
+        System.out.println("Enter the government type");
+        String governmentType= scanner.nextLine();
+        System.out.println("Enter the population");
+        Integer population= scanner.nextInt();
+        scanner.nextLine();
         inTransaction(entityManager -> {
             Country c = entityManager.find(Country.class, id);
 
             if (c != null) {
-                c.setGovernmentHead(governmentHead);
+                c.setCountryName(countryName);
+                c.setCapital(capital);
+                c.setPopulation(population);
                 c.setGovernmentType(governmentType);
                 c.setCountryName(countryName);
             }
@@ -161,7 +170,7 @@ public class JPAUtil {
 
     }
 
-    public static void capitalDensity(int id) {
+    public static void populationDensity(int id) {
 
         inTransaction(entityManager -> {
             int population;
@@ -178,59 +187,18 @@ public class JPAUtil {
                     System.out.println(Back_LithGrow + ANSI_RED + BOLD
                             + "There are " + density + " people living per km2 " + capitalName + "\n" + ANSI_RESET);
                 } else {
-                    System.out.println("Invalid population or areaCapital values");
+                    System.out.println("Error");
                 }
             }
         });
     }
 
-    public static void createCapital() {
-        System.out.println("Enter capital name");
-        String capitalName = scanner.nextLine();
-        System.out.println("Enter capital population");
-        int capitalPopulation = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter the timezone");
-        String timezone = scanner.nextLine();
-        System.out.println("Enter area in km2");
-        int capitalArea = scanner.nextInt();
-        scanner.nextLine();
 
-
-        inTransaction(entityManager -> {
-            Capital capital = new Capital();
-            capital.setCapitalName(capitalName);
-            capital.setCapitalPopulation(capitalPopulation);
-            capital.setTimezone(timezone);
-            capital.setAreaInKm2(capitalArea);
-            entityManager.persist(capital);
-        });
-    }
-
-    public static void createPopulation() {
-        System.out.println("Enter the population size");
-        int population = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter average age of the population ");
-        int avgAge = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter the name of the minority population");
-        String minority = scanner.nextLine();
-
-
-        inTransaction(entityManager -> {
-            Population population1 = new Population();
-            population1.setPopulation(population);
-            population1.setAverageAge(avgAge);
-            population1.setMinorityPopulation(minority);
-            entityManager.persist(population1);
-        });
-    }
 
     public static void createCurrency() {
 
 
-        System.out.println("Enter the currency name");
+        System.out.println("Enter currency name");
         String currencyName = scanner.nextLine();
         System.out.println("Enter ISO4217 code");
         int ISO = scanner.nextInt();
@@ -256,7 +224,7 @@ public class JPAUtil {
     public static void createLanguage() {
         System.out.println("Enter the language");
         String languageName = scanner.nextLine();
-        System.out.println("Enter the origin of the language");
+        System.out.println("Enter language origin");
         String languageRoot = scanner.nextLine();
         System.out.println("Enter the type of alphabet");
         String alphabet = scanner.nextLine();

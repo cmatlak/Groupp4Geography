@@ -26,7 +26,7 @@ static Quiz quiz = new Quiz(countryGenerator);
 
         };
         String[] meny2 = {
-                "5 - Show capital density",
+                "5 - Show country population density",
                 "6 - Show languages of a country",
                 "7 - Country quiz",
                 "E - Exit"
@@ -44,13 +44,13 @@ static Quiz quiz = new Quiz(countryGenerator);
 
                 case "2" -> JPAUtil.readAllCountries();
 
-                case "3" -> JPAUtil.updateCountry("Joe Biden", "Dictatorship", "United States", 1);
+                case "3" -> JPAUtil.updateCountry();
 
                 case "4" -> JPAUtil.deleteCountry();
 
-                case "5" -> JPAUtil.capitalDensity(1);
+                case "5" -> JPAUtil.populationDensity(1);
 
-                case "6" -> JPAUtil.join(1);
+                case "6" -> JPAUtil.populationDensity(2);
 
                 case "7" -> quiz.startQuiz();
 

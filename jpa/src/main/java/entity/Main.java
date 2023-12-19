@@ -1,3 +1,6 @@
+package entity;
+
+import entity.JPAUtil;
 import jakarta.persistence.*;
 public class Main {
 
