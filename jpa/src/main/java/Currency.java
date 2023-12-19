@@ -16,13 +16,17 @@ public class Currency {
     private String currencyName;
 
     @Column(name = "ISO4217")
-    private String ISO4217;
+    private int ISO4217;
 
     @Column(name= "subCurrency")
     private String subCurrency;
 
     @Column(name = "euroCost")
-    private String euroCost;
+    private int euroCost;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "currencyId", referencedColumnName = "countryId")
+    private Country country;
 
     public int getCurrencyId() {
         return currencyId;
@@ -40,11 +44,11 @@ public class Currency {
         this.currencyName = currencyName;
     }
 
-    public String getISO4217() {
+    public int getISO4217() {
         return ISO4217;
     }
 
-    public void setISO4217(String ISO4217) {
+    public void setISO4217(int ISO4217) {
         this.ISO4217 = ISO4217;
     }
 
@@ -56,11 +60,11 @@ public class Currency {
         this.subCurrency = subCurrency;
     }
 
-    public String getEuroCost() {
+    public int getEuroCost() {
         return euroCost;
     }
 
-    public void setEuroCost(String euroCost) {
+    public void setEuroCost(int euroCost) {
         this.euroCost = euroCost;
     }
 

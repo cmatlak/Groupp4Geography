@@ -1,9 +1,13 @@
+import jakarta.persistence.EntityManager;
+
 import java.util.Scanner;
 
 
 public class Menu {
-
-
+static JPAUtil jpaUtil = new JPAUtil();
+static EntityManager entityManager = jpaUtil.getEntityManager();
+static RandomCountry countryGenerator = new RandomCountry(entityManager);
+static Quiz quiz = new Quiz(countryGenerator);
     public static void choice(){
         Scanner scanner = new Scanner(System.in);
 
@@ -48,7 +52,7 @@ public class Menu {
 
                 case "6" -> JPAUtil.join(1);
 
-                case "7" -> JPAUtil.searchCountry();
+                case "7" -> quiz.startQuiz();
 
                 case "e","E" -> running = false;
             }

@@ -10,7 +10,7 @@ import java.util.Objects;
 
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Id
-        @Column(name = "CapitalId")
+        @Column(name = "capitalId")
         private int capitalId;
 
         @Column(name = "capitalName")

@@ -12,10 +12,10 @@ public class Population {
     private int populationId;
 
     @Column(name = "population")
-    private Integer population;
+    private int population;
 
     @Column(name = "averageAge")
-    private String averageAge;
+    private int averageAge;
 
     @Column(name = "minorityPopulation")
     private String minorityPopulation;
@@ -32,15 +32,15 @@ public class Population {
         return population;
     }
 
-    public void setPopulation(Integer population) {
+    public void setPopulation(int population) {
         this.population = population;
     }
 
-    public String getAverageAge() {
+    public int getAverageAge() {
         return averageAge;
     }
 
-    public void setAverageAge(String averageAge) {
+    public void setAverageAge(int averageAge) {
         this.averageAge = averageAge;
     }
 
