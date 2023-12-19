@@ -71,8 +71,13 @@ public class JPAUtil {
         String countryName = scanner.nextLine();
         System.out.println("Enter country code");
         String countryCode = scanner.nextLine();
-        System.out.println("Enter the continent it belongs to");
-        String continent = scanner.nextLine();
+        System.out.println("Enter the capital");
+        String capital= scanner.nextLine();
+        System.out.println("Enter the government type");
+        String governmentType= scanner.nextLine();
+        System.out.println("Enter the population");
+        Integer population= scanner.nextInt();
+        scanner.nextLine();
         System.out.println("Enter the country's area in km2");
         int area = scanner.nextInt();
         scanner.nextLine();
@@ -141,7 +146,6 @@ public class JPAUtil {
                 c.setCapital(capital);
                 c.setPopulation(population);
                 c.setGovernmentType(governmentType);
-                c.setCountryName(countryName);
             }
         });
 
@@ -254,6 +258,7 @@ public class JPAUtil {
             System.out.println("\nChoose an option in the menu");
         });
 
+}
 }
 
 
