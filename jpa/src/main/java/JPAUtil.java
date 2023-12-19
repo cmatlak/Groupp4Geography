@@ -120,6 +120,15 @@ public class JPAUtil {
             System.out.println("\nChoose an option in the menu");
         });
     }
+    public static void join(int id){
+        inTransaction(entityManager -> {
+            Country c = entityManager.find(Country.class, id);
+            Capital c1=entityManager.find(Capital.class,id);
+            if (c != null)
+                System.out.println(c.getCountryName()+"har :"+c1.getCapitalName());
+        });
+
+    }
 
 
     public static void updateCountry(String governmentHead, String governmentType, String countryName, int id) {
