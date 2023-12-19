@@ -20,6 +20,10 @@ public class Language {
     @Column(name = "alphabet")
     private String alphabet;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "LanguageId", referencedColumnName = "countryId")
+    private Country country;
+
     public int getLanguageId() {
         return languageId;
     }

@@ -20,6 +20,10 @@ public class Population {
     @Column(name = "minorityPopulation")
     private String minorityPopulation;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "populationId", referencedColumnName = "countryId")
+    private Country country;
+
     public int getPopulationId() {
         return populationId;
     }
