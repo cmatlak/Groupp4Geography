@@ -1,13 +1,10 @@
-import jakarta.persistence.EntityManager;
+package entity;
 
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Menu {
-static JPAUtil jpaUtil = new JPAUtil();
-static EntityManager entityManager = jpaUtil.getEntityManager();
-static RandomCountry countryGenerator = new RandomCountry(entityManager);
-static Quiz quiz = new Quiz(countryGenerator);
+
     public static void choice(){
         Scanner scanner = new Scanner(System.in);
 
@@ -28,7 +25,8 @@ static Quiz quiz = new Quiz(countryGenerator);
         String[] meny2 = {
                 "5 - Show country population density",
                 "6 - Show languages of a country",
-                "7 - Country quiz",
+                "7 - Capital quiz",
+                "8 - Show Religions",
                 "E - Exit"
 
         };
@@ -52,8 +50,13 @@ static Quiz quiz = new Quiz(countryGenerator);
 
                 case "6" -> JPAUtil.populationDensity(2);
 
-                case "7" -> quiz.startQuiz();
+                case "7" -> {
+                    RandomCountry randomCountry = new RandomCountry();
+                    Quiz quiz = new Quiz(randomCountry);
+                    quiz.startQuiz();
+                }
 
+                case "8" -> JPAUtil.readAllReligion();
                 case "e","E" -> running = false;
             }
 

@@ -115,15 +115,9 @@ public class JPAUtil {
             System.out.println("\nChoose an option in the menu");
         });
     }
-    public static void join(int id){
-        inTransaction(entityManager -> {
-            Country c = entityManager.find(Country.class, id);
-            Capital c1=entityManager.find(Capital.class,id);
-            if (c != null)
-                System.out.println(c.getCountryName()+"har :"+c1.getCapitalName());
-        });
 
-    }
+
+
 
 
     public static void updateCountry() {
@@ -156,7 +150,7 @@ public class JPAUtil {
 
     public static void deleteCountry() {
         System.out.println("Select country id to remove:");
-        int id = scanner.nextInt(); // Läser in användar-input som ett heltal
+        int id = scanner.nextInt();
 
         inTransaction(entityManager -> {
             Country c = entityManager.find(Country.class, id);
@@ -174,18 +168,17 @@ public class JPAUtil {
 
         inTransaction(entityManager -> {
             int population;
-            int areaCapital;
-            String capitalName;
-            Capital ca = entityManager.find(Capital.class, id);
-            if (ca != null) {
-                population = ca.getCapitalPopulation();
-                areaCapital = ca.getAreaInKm2();
-                capitalName = ca.getCapitalName();
+            int areaInKm2;
 
-                if (areaCapital > 0 && population > 0) {
-                    int density = (int) population / areaCapital;
+            Country c = entityManager.find(Country.class, id);
+            if (c != null) {
+                population = c.getPopulation();
+                areaInKm2 = c.getAreaInKm2();
+                 String name = c.getCountryName();
+                if (areaInKm2 > 0 && population > 0) {
+                    int density =  population / areaInKm2;
                     System.out.println(Back_LithGrow + ANSI_RED + BOLD
-                            + "There are " + density + " people living per km2 " + capitalName + "\n" + ANSI_RESET);
+                            + "There are " + density + " people living per km2 " + name + "\n" + ANSI_RESET);
                 } else {
                     System.out.println("Error");
                 }
@@ -201,13 +194,12 @@ public class JPAUtil {
         System.out.println("Enter currency name");
         String currencyName = scanner.nextLine();
         System.out.println("Enter ISO4217 code");
-        int ISO = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Enter the sub-currency");
+        String ISO = scanner.nextLine();
+        System.out.println("Enter sub-currency");
         String subC = scanner.nextLine();
-        System.out.println("Enter the cost of one Euro");
-        int euro = scanner.nextInt();
-        scanner.nextLine();
+        System.out.println("Enter cost of one Euro");
+        String euro = scanner.nextLine();
+        ;
 
 
         inTransaction(entityManager -> {
@@ -239,7 +231,28 @@ public class JPAUtil {
         });
     }
 
+    public static void readAllReligion() {
+        inTransaction(entityManager -> {
+            List<Religion> religions = entityManager.createQuery("SELECT r FROM Religion r", Religion.class)
+                    .getResultList();
 
+            if (religions.isEmpty()) {
+                System.out.println("No religions found in the database.");
+            } else {
+                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-25s%-25s%-25s%-15s%n",
+                        "religionName", "holybook", "countryOfOrigin",
+                         "Id" + ANSI_RESET);
+
+                for (Religion r : religions) {
+                    System.out.format(ANSI_GREEN + "%-25s%-25s%-25s%-15s%n",
+                            r.getReligionName(), r.getHolyBook(), r.getCountryOfOrigin(),
+                            r.getId()
+                                    + ANSI_RESET);
+                }
+            }
+
+            System.out.println("\nChoose an option in the menu");
+        });
 
 }
 

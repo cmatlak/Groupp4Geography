@@ -4,9 +4,13 @@ import java.util.*;
 
 
 public class Quiz {
-    private final RandomCountry countryGenerator; // Använd rätt namn för din randomCountry-klass
+   Scanner scanner = new Scanner(System.in);
+
+    private final RandomCountry countryGenerator;
+
 
     public Quiz(RandomCountry countryGenerator) {
+
         this.countryGenerator = countryGenerator;
     }
 
