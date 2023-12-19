@@ -15,9 +15,7 @@ public class JPAUtil {
     public static final String KURV = "\u001B[3m";
     public static final String BOLD = "\u001B[1m";
     public static final String Back_LithGrow = "\u001B[107m";
-    static Scanner scanner = new Scanner(System.in);
-
-
+static Scanner scanner = new Scanner(System.in);
     static {
         emf = Persistence.createEntityManagerFactory("jpa-hibernate-mysql");
         Runtime.getRuntime().addShutdownHook(new Thread(emf::close));
