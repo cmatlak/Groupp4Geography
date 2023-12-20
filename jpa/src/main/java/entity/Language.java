@@ -10,6 +10,7 @@ public class Language {
     @Column(name = "languageId", nullable = false)
     private Integer id;
 
+
     @Column(name = "language", length = 50)
     private String language;
 
@@ -18,6 +19,7 @@ public class Language {
 
     @Column(name = "alphabet", length = 50)
     private String alphabet;
+
 
     public Integer getId() {
         return id;

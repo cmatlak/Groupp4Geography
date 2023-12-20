@@ -49,11 +49,11 @@ public class Menu {
 
                 case "3" -> JPAUtil.joinCountryLanguage();
 
-                case "2" -> JPAUtil.readAllCountries();
+                case "4" -> JPAUtil.readAllCountries();
 
-                case "3" -> JPAUtil.updateCountry();
+                case "5" -> JPAUtil.updateCountry();
 
-                case "4" -> JPAUtil.deleteCountry();
+                case "6" -> JPAUtil.deleteCountry();
 
                 case "7" -> JPAUtil.readAllContinents();
 

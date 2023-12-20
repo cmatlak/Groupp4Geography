@@ -8,7 +8,6 @@ public class Quiz {
 
     private final RandomCountry countryGenerator;
 
-
     public Quiz(RandomCountry countryGenerator) {
 
         this.countryGenerator = countryGenerator;
@@ -19,8 +18,6 @@ public class Quiz {
         List<String> usedCountries = new ArrayList<>();
         int j = 0;
         System.out.println("Welcome to the mega fun geography quiz!!!");
-
-
 
         for (int i = 0; i < 5; i++) {
             Country randomCountry;
@@ -33,6 +30,7 @@ public class Quiz {
             } while (usedCountries.contains(tempel));
 
             usedCountries.add(tempel);
+
 
                 System.out.println("Question: Name the capital in: " + randomCountry.getCountryName());
                 String answerCapital = scanner.nextLine();

@@ -1,6 +1,7 @@
 package entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,8 +12,6 @@ public class JPAUtil {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31;1m";
     public static final String ANSI_GREEN = "\u001B[32;1m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String KURV = "\u001B[3m";
     public static final String BOLD = "\u001B[1m";
     public static final String Back_LithGrow = "\u001B[107m";
 static Scanner scanner = new Scanner(System.in);
@@ -44,6 +43,25 @@ static Scanner scanner = new Scanner(System.in);
 
         em.close();
     }
+
+    public static void joinCountryLanguage() {
+    EntityManager em = JPAUtil.getEntityManager();
+    TypedQuery<Object[]> query = em.createQuery(
+            "SELECT c, l FROM Country c JOIN c.language l", Object[].class);
+
+    List<Object[]> results = query.getResultList();
+
+    for (Object[] result : results) {
+        Country country = (Country) result[0];
+        Language language = (Language) result[1];
+
+        System.out.println("Country: " + country.getCountryName() + ", Language: " + language.getLanguage());
+    }
+
+    em.close();
+}
+
+
 
 
     static void inTransaction(Consumer<EntityManager> work) {
