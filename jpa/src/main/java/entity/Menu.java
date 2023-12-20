@@ -4,7 +4,6 @@ import java.util.*;
 
 
 public class Menu {
-
     public static void choice(){
         Scanner scanner = new Scanner(System.in);
 
@@ -39,6 +38,10 @@ public class Menu {
 
             switch (action){
                 case "1" -> JPAUtil.createCountry();
+
+                case "2" -> JPAUtil.createLanguage();
+
+                case "3" -> JPAUtil.joinCountryLanguage();
 
                 case "2" -> JPAUtil.readAllCountries();
 

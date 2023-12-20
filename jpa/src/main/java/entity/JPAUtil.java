@@ -39,11 +39,12 @@ static Scanner scanner = new Scanner(System.in);
 
         TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c WHERE c.countryName = :name", Country.class);
         query.setParameter("name", name);
-        List<Country> currencies = query.getResultList();
-        currencies.forEach(System.out::println);
+        List<Country> countries = query.getResultList();
+        countries.forEach(System.out::println);
 
         em.close();
     }
+
 
     static void inTransaction(Consumer<EntityManager> work) {
         try (EntityManager entityManager = JPAUtil.getEntityManager()) {
@@ -60,11 +61,73 @@ static Scanner scanner = new Scanner(System.in);
             }
         }
     }
+    public static void showLanguage() {
+        System.out.println("Which country id do you want to check language on?");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        inTransaction(entityManager -> {
+            String language;
+            String root;
+            String country;
+            Language l = entityManager.find(Language.class, id);
+            Country c = entityManager.find(Country.class, id);
+            if (l != null) {
+                language = l.getLanguage();
+                root = l.getLanguageRoot();
+                country = c.getCountryName();
+                System.out.println(Back_LithGrow + ANSI_RED + BOLD
+                        + "In " + country + " They speak " + language + " That roots out of " + root + "\n" + ANSI_RESET);
+            }
+        });
+    }
+    public static void readAllContinents() {
+        inTransaction(entityManager -> {
+            List<Continent> continents = entityManager.createQuery("SELECT c2 FROM Continent c2", Continent.class)
+                    .getResultList();
 
+            if (continents.isEmpty()) {
+                System.out.println("No continents found in the database.");
+            } else {
+                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-25s%-25s%-25s%-40s%-15s%n",
+                        "ContinentName", "numberOfTimezones", "geoLocation",
+                        "numberOfCountries", "Id" + ANSI_RESET);
 
+                for (Continent c2 : continents) {
+                    System.out.format(ANSI_GREEN + "%-25s%-25s%-25s%-40s%-15s%n",
+                            c2.getContinentName(), c2.getNumberOfTimezones(), c2.getGeoLocation(),
+                            c2.getNumberOfCountries(),
+                            c2.getId()
+                                    + ANSI_RESET);
+                }
+            }
+
+            System.out.println("\nChoose an option in the menu");
+        });
+    }
+    public static void populationDensity() {
+        System.out.println("which country id do you want to check population density on? ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        inTransaction(entityManager -> {
+            int population;
+            int areaInKm2;
+
+            Country c = entityManager.find(Country.class, id);
+            if (c != null) {
+                population = c.getPopulation();
+                areaInKm2 = c.getAreaInKm2();
+                String name = c.getCountryName();
+                if (areaInKm2 > 0 && population > 0) {
+                    int density =  population / areaInKm2;
+                    System.out.println(Back_LithGrow + ANSI_RED + BOLD
+                            + "There are " + density + " people living per km2 " + name + "\n" + ANSI_RESET);
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        });
+    }
     public static void createCountry() {
-        createLanguage();
-        createCurrency();
         System.out.println("Enter the country name");
         String countryName = scanner.nextLine();
         System.out.println("Enter country code");

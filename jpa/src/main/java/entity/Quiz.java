@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public class Quiz {
-   Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
     private final RandomCountry countryGenerator;
 
@@ -28,6 +28,7 @@ public class Quiz {
             Country randomCountry; 
             String tempel;
 
+
             do {
                 randomCountry = countryGenerator.getRandomCountry();
                 tempel = randomCountry.getCountryName();
@@ -35,18 +36,18 @@ public class Quiz {
 
             usedCountries.add(tempel);
 
-            System.out.println("Question: Name the capital in: " + randomCountry.getCountryName());
-            String answerCapital = scanner.nextLine();
-                if(Objects.equals(answerCapital, randomCountry.getCapital())) {
-                j = j + 1;
-                System.out.println("Correct!"+"\n"+"Your score: "+j);
-            } else System.out.println("Wrong!");
+                System.out.println("Question: Name the capital in: " + randomCountry.getCountryName());
+                String answerCapital = scanner.nextLine();
+                if (answerCapital.equalsIgnoreCase(randomCountry.getCapital())) {
+                    j = j + 1;
+                    System.out.println("Correct!");
+                } else {
+                    System.out.println("Wrong!");
+                }
+
 
         }
-
-
-
-
+        System.out.println("You got " + j + "/5 answers right!");
 
     }
 }

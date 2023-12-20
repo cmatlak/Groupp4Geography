@@ -108,4 +108,18 @@ public class Country {
         this.currency = currency;
     }
 
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", countryName='" + countryName + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", capital='" + capital + '\'' +
+                ", governmentType='" + governmentType + '\'' +
+                ", population=" + population +
+                ", areaInKm2=" + areaInKm2 +
+                ", language=" + language +
+                ", currency=" + currency +
+                '}';
+    }
 }
