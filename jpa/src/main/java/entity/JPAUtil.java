@@ -229,29 +229,6 @@ static Scanner scanner = new Scanner(System.in);
 
     }
 
-    public static void populationDensity(int id) {
-
-        inTransaction(entityManager -> {
-            int population;
-            int areaInKm2;
-
-            Country c = entityManager.find(Country.class, id);
-            if (c != null) {
-                population = c.getPopulation();
-                areaInKm2 = c.getAreaInKm2();
-                 String name = c.getCountryName();
-                if (areaInKm2 > 0 && population > 0) {
-                    int density =  population / areaInKm2;
-                    System.out.println(Back_LithGrow + ANSI_RED + BOLD
-                            + "There are " + density + " people living per km2 " + name + "\n" + ANSI_RESET);
-                } else {
-                    System.out.println("Error");
-                }
-            }
-        });
-    }
-
-
 
     public static void createCurrency() {
 

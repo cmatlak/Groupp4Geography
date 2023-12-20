@@ -14,18 +14,16 @@ public class Quiz {
         this.countryGenerator = countryGenerator;
     }
 
-
-
     public void startQuiz() {
 
         List<String> usedCountries = new ArrayList<>();
-        int j=0;
+        int j = 0;
         System.out.println("Welcome to the mega fun geography quiz!!!");
 
 
 
-        for (int i = 0; i <3 ; i++) {
-            Country randomCountry; 
+        for (int i = 0; i < 5; i++) {
+            Country randomCountry;
             String tempel;
 
 

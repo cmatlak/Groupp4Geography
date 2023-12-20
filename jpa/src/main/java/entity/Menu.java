@@ -15,18 +15,24 @@ public class Menu {
         String BOLD = "\u001B[1m";
         String Back_LithGrow = "\u001B[107m";
         String[] meny1 = {
-                "1 - Add a country",
-                "2 - Show countries",
-                "3 - Update country",
-                "4 - Delete country",
+                "1  -  Add a country",
+                "2  -  Add language",
+                "3  -  Show languages with countries",
+                "4  -  Show countries",
+                "5  -  Update country",
+                "6  -  Delete country",
+                "7  -  Show continents"
 
         };
         String[] meny2 = {
-                "5 - Show country population density",
-                "6 - Show languages of a country",
-                "7 - Capital quiz",
-                "8 - Show Religions",
-                "E - Exit"
+                "8  -  Show country population density",
+                "9  -   Show languages of a country",
+                "10 -  Capital quiz",
+                "11 -  Show Religions",
+                "12 -  Search a country",
+                "e  -  Exit",
+                " "
+
 
         };
 
@@ -49,26 +55,33 @@ public class Menu {
 
                 case "4" -> JPAUtil.deleteCountry();
 
-                case "5" -> JPAUtil.populationDensity(1);
+                case "7" -> JPAUtil.readAllContinents();
 
-                case "6" -> JPAUtil.populationDensity(2);
+                case "8" -> JPAUtil.populationDensity();
 
-                case "7" -> {
+                case "9" -> JPAUtil.showLanguage();
+
+                case "10" -> {
                     RandomCountry randomCountry = new RandomCountry();
                     Quiz quiz = new Quiz(randomCountry);
                     quiz.startQuiz();
                 }
 
-                case "8" -> JPAUtil.readAllReligion();
-                case "e","E" -> running = false;
-            }
+                case "11" -> JPAUtil.readAllReligion();
 
-            }
+                case "12" -> JPAUtil.searchCountry();
+
+
+                case "e","E" -> running = false;}
+
+
+        }
         while (running); {
             System.out.println("See ya later, alligator");
         }
 
     }
+
 
     private static void menu(String[] menu1, String ANSI_GREEN, String BOLD, String[] meny2, String ANSI_RESET) {
         int j = 0;
