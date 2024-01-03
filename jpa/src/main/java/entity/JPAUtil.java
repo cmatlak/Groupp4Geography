@@ -252,21 +252,53 @@ public class JPAUtil {
 
     }
 
-    public static void deleteCountry() {
-        System.out.println("Select country id to remove:");
-        int id = scanner.nextInt();
+//    public static void deleteCountry() {
+//        System.out.println("Select country id to remove:");
+//        int id = scanner.nextInt();
+//
+//        inTransaction(entityManager -> {
+//            EntityManager em = JPAUtil.getEntityManager();
+//            String hql = "FROM Language l WHERE l.country.countryId = :countryId";
+//            List<Language> result = em.createQuery(hql, Language.class)
+//                    .setParameter("countryId", id)
+//                    .getResultList();
+//            for (int i = 0; i < result.size(); i++) {
+//                entityManager.remove(result.get(i));
+//
+//            }
+//            Country c = entityManager.find(Country.class, id);
+//            if (c != null) {
+//                entityManager.remove(c);
+//
+//                System.out.println(" Successfully removed");
+//            } else {
+//                System.out.println("Country not found with ID: " + id);
+//            }
+//        });
+//
+//    }
+public static void deleteCountry() {
+    System.out.println("Select country id to remove:");
+    int id = scanner.nextInt();
 
-        inTransaction(entityManager -> {
-            Country c = entityManager.find(Country.class, id);
-            if (c != null) {
-                System.out.println(c + " Successfully removed");
-                entityManager.remove(c);
-            } else {
-                System.out.println("Country not found with ID: " + id);
-            }
-        });
+    inTransaction(entityManager -> {
+        Country country = entityManager.find(Country.class, id);
 
-    }
+        if (country != null) {
+            String hql = "DELETE FROM Language l WHERE l.country.countryId = :countryId";
+            entityManager.createQuery(hql)
+                    .setParameter("countryId", id)
+                    .executeUpdate();
+
+            entityManager.remove(country);
+
+            System.out.println("Successfully removed");
+        } else {
+            System.out.println("Country not found with ID: " + id);
+        }
+    });
+}
+
 
 
     public static void createCurrency() {
