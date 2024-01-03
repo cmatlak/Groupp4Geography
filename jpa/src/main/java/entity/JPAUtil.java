@@ -14,7 +14,8 @@ public class JPAUtil {
     public static final String ANSI_GREEN = "\u001B[32;1m";
     public static final String BOLD = "\u001B[1m";
     public static final String Back_LithGrow = "\u001B[107m";
-static Scanner scanner = new Scanner(System.in);
+    public static final String ANSI_BLUE = "\u001B[34m";
+    static Scanner scanner = new Scanner(System.in);
     static {
         emf = Persistence.createEntityManagerFactory("jpa-hibernate-mysql");
         Runtime.getRuntime().addShutdownHook(new Thread(emf::close));
@@ -27,7 +28,7 @@ static Scanner scanner = new Scanner(System.in);
 
     public static void searchCountry() {
         EntityManager em = JPAUtil.getEntityManager();
-        System.out.print("Enter search term: ");
+        System.out.print("Enter country name: ");
         String name = scanner.nextLine();
 
         // Validate user input
@@ -39,29 +40,34 @@ static Scanner scanner = new Scanner(System.in);
         TypedQuery<Country> query = em.createQuery("SELECT c FROM Country c WHERE c.countryName = :name", Country.class);
         query.setParameter("name", name);
         List<Country> countries = query.getResultList();
+        if (countries.isEmpty()){
+            System.out.println("That country does not exist");
+        }
         countries.forEach(System.out::println);
 
         em.close();
     }
-
     public static void joinCountryLanguage() {
-    EntityManager em = JPAUtil.getEntityManager();
-    TypedQuery<Object[]> query = em.createQuery(
-            "SELECT c, l FROM Country c JOIN c.language l", Object[].class);
+        EntityManager em = JPAUtil.getEntityManager();
 
-    List<Object[]> results = query.getResultList();
+        TypedQuery<Country> query = em.createQuery(
+                "SELECT c FROM Country c JOIN FETCH c.languages", Country.class);
 
-    for (Object[] result : results) {
-        Country country = (Country) result[0];
-        Language language = (Language) result[1];
+        List<Country> countries = query.getResultList();
 
-        System.out.println("Country: " + country.getCountryName() + ", Language: " + language.getLanguage());
+        for (Country country : countries) {
+            System.out.println(ANSI_GREEN+"Country: " + ANSI_RED+country.getCountryName());
+            System.out.print(ANSI_GREEN+"Languages: ");
+
+            for (Language language : country.getLanguages()) {
+                System.out.print( ANSI_RESET+ANSI_BLUE+" - "+language.getLanguage()+ANSI_RESET);
+            }
+
+            System.out.println();
+        }
+
+        em.close();
     }
-
-    em.close();
-}
-
-
 
 
     static void inTransaction(Consumer<EntityManager> work) {
@@ -79,24 +85,39 @@ static Scanner scanner = new Scanner(System.in);
             }
         }
     }
-    public static void showLanguage() {
+//    public static void showLanguage() {
+//        System.out.println("Which country id do you want to check language on?");
+//        int id = scanner.nextInt();
+//        scanner.nextLine();
+//        inTransaction(entityManager -> {
+//            String language;
+//            String root;
+//            String country;
+//            Language l = entityManager.find(Language.class, id);
+//            Country c = entityManager.find(Country.class, id);
+//            if (l != null) {
+//                language = l.getLanguage();
+//                root = l.getLanguageRoot();
+//                country = c.getCountryName();
+//                System.out.println(Back_LithGrow + ANSI_RED + BOLD
+//                        + "In " + country + " They speak " + language + " That roots out of " + root + "\n" + ANSI_RESET);
+//            }
+//        });
+//    }
+    public static void showLanguage(){
         System.out.println("Which country id do you want to check language on?");
         int id = scanner.nextInt();
         scanner.nextLine();
-        inTransaction(entityManager -> {
-            String language;
-            String root;
-            String country;
-            Language l = entityManager.find(Language.class, id);
-            Country c = entityManager.find(Country.class, id);
-            if (l != null) {
-                language = l.getLanguage();
-                root = l.getLanguageRoot();
-                country = c.getCountryName();
-                System.out.println(Back_LithGrow + ANSI_RED + BOLD
-                        + "In " + country + " They speak " + language + " That roots out of " + root + "\n" + ANSI_RESET);
-            }
-        });
+        EntityManager em = JPAUtil.getEntityManager();
+        String hql = "FROM Language l WHERE l.country.countryId = :countryId";
+        List<Language> result = em.createQuery(hql, Language.class)
+                .setParameter("countryId", id)
+                .getResultList();
+        System.out.print( ANSI_GREEN+"Country with id: "+id );
+        for(Language language:result){
+            System.out.print(ANSI_RESET+ANSI_BLUE+" - "+language.getLanguage()+ANSI_RESET);
+        }
+        System.out.println("\n ");
     }
     public static void readAllContinents() {
         inTransaction(entityManager -> {
@@ -106,15 +127,15 @@ static Scanner scanner = new Scanner(System.in);
             if (continents.isEmpty()) {
                 System.out.println("No continents found in the database.");
             } else {
-                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-25s%-25s%-25s%-40s%-15s%n",
+                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-25s%-25s%-35s%-20s%-15s%n",
                         "ContinentName", "numberOfTimezones", "geoLocation",
                         "numberOfCountries", "Id" + ANSI_RESET);
 
                 for (Continent c2 : continents) {
-                    System.out.format(ANSI_GREEN + "%-25s%-25s%-25s%-40s%-15s%n",
+                    System.out.format(ANSI_GREEN + "%-25s%-25s%-35s%-20s%-15s%n",
                             c2.getContinentName(), c2.getNumberOfTimezones(), c2.getGeoLocation(),
                             c2.getNumberOfCountries(),
-                            c2.getId()
+                            c2.getContinentId()
                                     + ANSI_RESET);
                 }
             }
@@ -138,7 +159,7 @@ static Scanner scanner = new Scanner(System.in);
                 if (areaInKm2 > 0 && population > 0) {
                     int density =  population / areaInKm2;
                     System.out.println(Back_LithGrow + ANSI_RED + BOLD
-                            + "There are " + density + " people living per km2 " + name + "\n" + ANSI_RESET);
+                            + "                                     There are " + density + " people living per km2 " + name + "\n" + ANSI_RESET);
                 } else {
                     System.out.println("Error");
                 }
@@ -183,16 +204,16 @@ static Scanner scanner = new Scanner(System.in);
             if (countries.isEmpty()) {
                 System.out.println("No countries found in the database.");
             } else {
-                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-25s%-25s%-25s%-40s%-20s%-20s%-15s%n",
+                System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-23s%-18s%-20s%-44s%-22s%-20s%-14s%n",
                         "CountryName", "CountryCode", "Capital",
                         "GovernmentType", "Population", "AreaInKm2", "Id" + ANSI_RESET);
 
                 for (Country c : countries) {
-                    System.out.format(ANSI_GREEN + "%-25s%-25s%-25s%-40s%-20s%-20s%-15s%n",
+                    System.out.format(ANSI_GREEN + "%-23s%-18s%-20s%-44s%-22s%-20s%-14s%n",
                             c.getCountryName(), c.getCountryCode(), c.getCapital(),
                             c.getGovernmentType(), c.getPopulation(), c.getAreaInKm2(),
-                            c.getId()
-                            + ANSI_RESET);
+                            c.getCountryId()
+                                    + ANSI_RESET);
                 }
             }
 
@@ -280,13 +301,17 @@ static Scanner scanner = new Scanner(System.in);
         String languageRoot = scanner.nextLine();
         System.out.println("Enter the type of alphabet");
         String alphabet = scanner.nextLine();
-
+        System.out.println("Enter country id");
+        int languageCountryId= scanner.nextInt();
+        scanner.nextLine();
 
         inTransaction(entityManager -> {
             Language language = new Language();
+            Country c = entityManager.find(Country.class, languageCountryId);
             language.setLanguage(languageName);
             language.setLanguageRoot(languageRoot);
             language.setAlphabet(alphabet);
+            language.setCountry(c);
             entityManager.persist(language);
         });
     }
@@ -301,12 +326,12 @@ static Scanner scanner = new Scanner(System.in);
             } else {
                 System.out.format(Back_LithGrow + BOLD + ANSI_RED + "%-25s%-25s%-25s%-15s%n",
                         "religionName", "holybook", "countryOfOrigin",
-                         "Id" + ANSI_RESET);
+                        "Id" + ANSI_RESET);
 
                 for (Religion r : religions) {
                     System.out.format(ANSI_GREEN + "%-25s%-25s%-25s%-15s%n",
                             r.getReligionName(), r.getHolyBook(), r.getCountryOfOrigin(),
-                            r.getId()
+                            r.getReligionId()
                                     + ANSI_RESET);
                 }
             }
@@ -314,7 +339,7 @@ static Scanner scanner = new Scanner(System.in);
             System.out.println("\nChoose an option in the menu");
         });
 
-}
+    }
 }
 
 

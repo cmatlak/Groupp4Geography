@@ -26,11 +26,11 @@ public class Menu {
         };
         String[] meny2 = {
                 "8  -  Show country population density",
-                "9  -   Show languages of a country",
+                "9  -  Show language and country with root",
                 "10 -  Capital quiz",
                 "11 -  Show Religions",
                 "12 -  Search a country",
-                "e  -  Exit",
+                ANSI_RED+"e  -  Exit"+ANSI_RESET,
                 " "
 
 
@@ -85,6 +85,7 @@ public class Menu {
 
     private static void menu(String[] menu1, String ANSI_GREEN, String BOLD, String[] meny2, String ANSI_RESET) {
         int j = 0;
+
         for (int i = 0; i < menu1.length; i++, j++) {
             System.out.format(ANSI_GREEN + BOLD + "%-60s%-70s%n", menu1[i], meny2[j] + ANSI_RESET);
         }
